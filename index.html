@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DigiSafe+ | System D</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              teal: {
+                900: '#0B5560', // Primary Deep Teal
+                800: '#106A76',
+                700: '#15808C',
+                500: '#15808C', // Fallback
+                300: '#4CA4AE',
+                200: '#8BCED6',
+                100: '#D0EFF2',
+                50: '#F0FBFC',
+              },
+              terracotta: {
+                DEFAULT: '#D86A4A', // Accent
+                500: '#D86A4A',
+                600: '#C0583A',
+              },
+              gold: {
+                DEFAULT: '#F2A66A', // Highlight
+                500: '#F2A66A',
+                100: '#FEF3E6',
+              },
+              cream: {
+                DEFAULT: '#FFF8F2', // Background
+                50: '#FFFCFA',
+              },
+              charcoal: '#222222',
+              indigo: {
+                muted: '#4C3B9B',
+              },
+            },
+            fontFamily: {
+              sans: ['Public Sans', 'sans-serif'],
+              serif: ['Noto Serif', 'serif'],
+            },
+            backgroundImage: {
+              'kitenge-pattern': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D86A4A' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+            },
+            animation: {
+              'bounce-slow': 'bounce 3s infinite',
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      body {
+        background-color: #FFF8F2;
+        color: #222222;
+      }
+      /* Custom scrollbar for webkit */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #FFF8F2; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #F2A66A; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #D86A4A; 
+      }
+
+      /* Animations */
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(30px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes slideOutLeft {
+        from { opacity: 1; transform: translateX(0); }
+        to { opacity: 0; transform: translateX(-30px); }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes scaleIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      
+      .animate-slide-in { animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+      .animate-slide-out { animation: slideOutLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+      .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+      .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+      .animate-scale-in { animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+      /* Progress Bar Transition */
+      .progress-bar { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+      
+      /* Hide scrollbar for quick replies */
+      .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+      }
+      .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.10.1",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.5.1"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

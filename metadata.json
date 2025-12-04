@@ -1,0 +1,8 @@
+{
+  "name": "DigiSafe+ (System D)",
+  "description": "A privacy-first, African-centered digital bodyguard platform for women and girls. Features monitoring, harassment detection, and safety coaching.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
