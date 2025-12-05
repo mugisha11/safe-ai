@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import { 
@@ -16,6 +17,7 @@ import Landing from './components/Landing';
 import About from './components/About';
 import Support from './components/Support';
 import Chatbot from './components/Chatbot';
+import PublicLayout from './components/PublicLayout';
 import { generateMockAlert } from './services/monitoringService';
 import { Alert } from './types';
 
@@ -38,10 +40,10 @@ const Sidebar = ({ isOpen, onClose, panicMode }: { isOpen: boolean, onClose: () 
   return (
     <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-teal-900 text-cream transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:inset-auto shadow-xl`}>
       <div className="flex items-center justify-between p-6">
-        <div className="flex items-center space-x-2">
+        <Link to="/dashboard" className="flex items-center space-x-2" onClick={onClose}>
           <Logo className="w-8 h-8" />
           <span className="text-xl font-bold font-serif tracking-wide">DigiSafe+</span>
-        </div>
+        </Link>
         <button onClick={onClose} className="md:hidden text-cream hover:text-gold">
           <X size={24} />
         </button>
@@ -70,14 +72,14 @@ const Sidebar = ({ isOpen, onClose, panicMode }: { isOpen: boolean, onClose: () 
           <span>Quick Exit (Panic)</span>
         </button>
         <div className="text-xs text-center text-teal-300 opacity-60">
-          System D • Ver 1.0.4
+          System D • Ver 1.0.5
         </div>
       </div>
     </aside>
   );
 };
 
-// --- Main App Layout ---
+// --- Main App Layout for Authenticated Users ---
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notifications, setNotifications] = useState<Alert[]>([]);
@@ -87,7 +89,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
     const interval = setInterval(() => {
       if (Math.random() > 0.8) { // 20% chance every 15s
         const newAlert = generateMockAlert();
-        setNotifications(prev => [newAlert, ...prev].slice(0, 10));
+        setNotifications(prev => [newAlert, ...prev].slice(1, 10)); // Keep last 10
       }
     }, 15000);
     return () => clearInterval(interval);
@@ -141,35 +143,46 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // Helper to choose layout based on auth state
+  const RouteLayout = ({ children }: { children: React.ReactNode }) => {
+    if (isAuthenticated) {
+      return <AppLayout>{children}</AppLayout>;
+    }
+    return <PublicLayout>{children}</PublicLayout>;
+  };
+
+  // Helper for strictly protected routes
+  const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+    if (!isAuthenticated) {
+      return <Navigate to="/auth" />;
+    }
+    return <AppLayout>{children}</AppLayout>;
+  };
+
   return (
     <Router>
       {/* Global Chatbot Bubble */}
       <Chatbot />
       
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Landing />} />
         <Route path="/auth" element={<Auth onLogin={() => setIsAuthenticated(true)} />} />
         
-        {/* Protected Routes */}
-        <Route path="/*" element={
-          isAuthenticated ? (
-            <AppLayout>
-              <Routes>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/monitor" element={<Monitoring />} />
-                <Route path="/scan" element={<Scanner />} />
-                <Route path="/safe-folder" element={<SafeFolder />} />
-                <Route path="/reports" element={<Reports />} />
-                <Route path="/plans" element={<Plans />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/support" element={<Support />} />
-                <Route path="*" element={<Navigate to="/dashboard" />} />
-              </Routes>
-            </AppLayout>
-          ) : (
-            <Navigate to="/auth" />
-          )
-        } />
+        {/* Hybrid Routes (Public or Protected depending on login) */}
+        <Route path="/about" element={<RouteLayout><About /></RouteLayout>} />
+        <Route path="/plans" element={<RouteLayout><Plans /></RouteLayout>} />
+        <Route path="/support" element={<RouteLayout><Support /></RouteLayout>} />
+        <Route path="/scan" element={<RouteLayout><Scanner /></RouteLayout>} />
+        
+        {/* Strictly Protected Dashboard Routes */}
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/monitor" element={<ProtectedRoute><Monitoring /></ProtectedRoute>} />
+        <Route path="/safe-folder" element={<ProtectedRoute><SafeFolder /></ProtectedRoute>} />
+        <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+
+        {/* Catch all */}
+        <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/"} />} />
       </Routes>
     </Router>
   );

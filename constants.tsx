@@ -9,23 +9,13 @@ export const Logo = ({ className = "w-10 h-10" }: { className?: string }) => (
   </svg>
 );
 
-export const IllustrationShield = () => (
-    <svg viewBox="0 0 200 200" className="w-full h-auto" fill="none">
-        <circle cx="100" cy="100" r="90" fill="#FFF8F2"/>
-        <path d="M100 20L40 45V90C40 135 65 175 100 190C135 175 160 135 160 90V45L100 20Z" fill="#D86A4A" opacity="0.1"/>
-        <path d="M100 40L55 60V90C55 125 75 155 100 165C125 155 145 125 145 90V60L100 40Z" stroke="#0B5560" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M85 90L95 100L115 80" stroke="#0B5560" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-);
-
-export const IllustrationWoman = () => (
-  <svg viewBox="0 0 200 200" className="w-full h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="100" cy="100" r="90" fill="#F2A66A" fillOpacity="0.1"/>
-    <path d="M100 180C144.183 180 180 144.183 180 100C180 55.8172 144.183 20 100 20C55.8172 20 20 55.8172 20 100C20 144.183 55.8172 180 100 180Z" stroke="#F2A66A" strokeWidth="2" strokeDasharray="4 4"/>
-    <path d="M100 60C111.046 60 120 68.9543 120 80C120 91.0457 111.046 100 100 100C88.9543 100 80 91.0457 80 80C80 68.9543 88.9543 60 100 60Z" fill="#0B5560"/>
-    <path d="M60 160C60 137.909 77.9086 120 100 120C122.091 120 140 137.909 140 160" stroke="#0B5560" strokeWidth="8" strokeLinecap="round"/>
-  </svg>
-);
+// --- IMAGERY (Unsplash Source IDs) ---
+export const IMAGES = {
+  hero: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=2574&auto=format&fit=crop", // Confident African woman using tech
+  community: "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2669&auto=format&fit=crop", // Group/Community
+  crisis: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=2669&auto=format&fit=crop", // Serious/Pensive emotion
+  education: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2670&auto=format&fit=crop" // Education/Children
+};
 
 export const PLANS = [
   {
@@ -74,47 +64,32 @@ export const MOCK_QUESTIONS = [
 
 export const LANDING_FEATURES = [
   {
-    title: "Social Media Monitoring",
-    description: "Track harassment and suspicious activity across platforms.",
+    title: "Monitor Threats",
+    description: "We scan social platforms 24/7 to detect harassment before it escalates.",
     iconName: "Eye"
   },
   {
-    title: "Harassment & Threat Detection",
-    description: "Detect harmful messages and posts instantly.",
-    iconName: "ShieldAlert"
-  },
-  {
-    title: "Image & Impersonation",
-    description: "Know if your photos are misused online.",
-    iconName: "Image"
-  },
-  {
-    title: "AI Safety Coach",
-    description: "Get personalized guidance and actionable safety tips.",
-    iconName: "Bot"
-  },
-  {
-    title: "Safe Folder",
-    description: "Securely save scans, evidence, and reports locally.",
+    title: "Secure Evidence",
+    description: "Our Safe Folder acts as a digital vault for evidence, encrypted and local.",
     iconName: "Lock"
   },
   {
-    title: "Real-Time Alerts",
-    description: "Stay informed instantly about any risk.",
-    iconName: "Bell"
+    title: "Empower & Educate",
+    description: "AI-driven coaching teaches digital rights and safety strategies.",
+    iconName: "Bot"
   }
 ];
 
 export const TESTIMONIALS = [
   {
-    text: "DigiSafe+ alerted me to a fake profile using my photos within minutes. I was able to report it before it did any damage.",
+    text: "I almost left social media because of the harassment. DigiSafe+ gave me the tools to reclaim my voice and protect my space. I am no longer afraid.",
     author: "Aminata, Nairobi",
-    role: "Entrepreneur"
+    role: "Journalist & Activist"
   },
   {
-    text: "As a mother of two teen girls, the Family Plan gives me peace of mind without invading their privacy. It's a lifesaver.",
-    author: "Chioma, Lagos",
-    role: "Parent"
+    text: "As a school principal, protecting our students online is as important as protecting them in the classroom. This platform is essential.",
+    author: "Mrs. Okonkwo, Lagos",
+    role: "Educator"
   }
 ];
 
