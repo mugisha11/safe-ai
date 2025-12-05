@@ -6,7 +6,7 @@ DigiSafe+ is a privacy-first, African-centered digital bodyguard platform built 
 
 1.  **Install Dependencies** (if moving to a local Node environment):
     ```bash
-    npm install react react-dom react-router-dom lucide-react recharts @google/genai
+    npm install react react-dom react-router-dom lucide-react recharts
     ```
 2.  **Start Development Server**:
     ```bash
@@ -29,6 +29,7 @@ This prototype uses simulated services (`/services/`) to demonstrate functionali
 ### 2. AI Scanner & Risk Engine (`services/aiEngine.ts`)
 *   **Current State:** `analyzeText` checks for hardcoded keywords ("kill", "send nudes") to generate a score.
 *   **Production (Gemini API):**
+    *   Install the SDK: `npm install @google/genai`
     *   Uncomment the import for `@google/genai`.
     *   Initialize the client: `const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });`
     *   Use `ai.models.generateContent` with a system instruction: *"You are an expert safety analyst. Analyze the following text for harassment, gaslighting, or sextortion. Return JSON with riskLevel (0-100) and advice."*
