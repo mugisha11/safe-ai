@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Logo, IMAGES, LANDING_FEATURES, PLANS, TESTIMONIALS } from '../constants';
-import { Shield, Eye, Heart, Bell, Lock, Image as ImageIcon, ShieldAlert, Bot, Check, ArrowRight } from 'lucide-react';
+import { Shield, Eye, Heart, Bell, Lock, Image as ImageIcon, ShieldAlert, Bot, Check, ArrowRight, Menu, X } from 'lucide-react';
 import GuestScanner from './GuestScanner';
 
 const IconMap: Record<string, any> = {
@@ -16,6 +16,7 @@ const IconMap: Record<string, any> = {
 
 const Landing = () => {
   const [showScanner, setShowScanner] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-white font-sans text-charcoal">
@@ -23,18 +24,22 @@ const Landing = () => {
         <GuestScanner isOpen={showScanner} onClose={() => setShowScanner(false)} />
 
         {/* Nav */}
-        <nav className="px-6 md:px-12 py-4 flex justify-between items-center bg-white sticky top-0 z-40 border-b border-gray-100">
-            <div className="flex items-center space-x-2">
+        <nav className="px-6 md:px-12 py-4 flex justify-between items-center bg-white sticky top-0 z-40 border-b border-gray-100 shadow-sm">
+            <div className="flex items-center space-x-2 z-50">
                 <Logo className="w-10 h-10" />
                 <span className="text-2xl font-serif font-bold text-teal-900 tracking-tight">DigiSafe+</span>
             </div>
-            <div className="space-x-8 hidden md:flex text-sm font-bold tracking-wide uppercase text-gray-600">
+
+            {/* Desktop Menu */}
+            <div className="hidden md:flex space-x-8 text-sm font-bold tracking-wide uppercase text-gray-600">
                 <Link to="/about" className="hover:text-terracotta transition-colors">The Crisis</Link>
                 <Link to="/about" className="hover:text-terracotta transition-colors">Our Solution</Link>
                 <Link to="/plans" className="hover:text-terracotta transition-colors">Membership</Link>
             </div>
-            <div className="space-x-4">
-                <Link to="/auth" className="text-teal-900 font-bold hover:underline hidden sm:inline-block">Log In</Link>
+
+            {/* Desktop Buttons */}
+            <div className="hidden md:flex space-x-4">
+                <Link to="/auth" className="text-teal-900 font-bold hover:underline py-2">Log In</Link>
                 <button 
                   onClick={() => setShowScanner(true)}
                   className="bg-terracotta text-white px-6 py-2 rounded-md font-bold hover:bg-terracotta-600 transition-colors shadow-sm uppercase tracking-wide text-sm"
@@ -42,6 +47,57 @@ const Landing = () => {
                     Free Safety Scan
                 </button>
             </div>
+
+            {/* Mobile Menu Toggle */}
+            <div className="md:hidden z-50">
+                <button 
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="text-teal-900 p-2"
+                >
+                    {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+            </div>
+
+            {/* Mobile Navigation Dropdown */}
+            {mobileMenuOpen && (
+                <div className="fixed inset-0 bg-cream/95 backdrop-blur-md z-40 flex flex-col items-center justify-center space-y-8 animate-fade-in md:hidden">
+                    <Link 
+                      to="/about" 
+                      className="text-2xl font-serif font-bold text-teal-900" 
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                        Our Mission
+                    </Link>
+                    <Link 
+                      to="/plans" 
+                      className="text-2xl font-serif font-bold text-teal-900" 
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                        Membership Plans
+                    </Link>
+                    <Link 
+                      to="/support" 
+                      className="text-2xl font-serif font-bold text-teal-900" 
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                        Support Center
+                    </Link>
+                    <hr className="w-24 border-teal-200" />
+                    <Link 
+                      to="/auth" 
+                      className="text-xl font-bold text-terracotta" 
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                        Log In
+                    </Link>
+                    <button 
+                      onClick={() => { setShowScanner(true); setMobileMenuOpen(false); }}
+                      className="bg-teal-900 text-white px-8 py-3 rounded-full font-bold shadow-lg"
+                    >
+                        Run Safety Scan
+                    </button>
+                </div>
+            )}
         </nav>
 
         {/* Humanitarian Hero Section */}
@@ -53,18 +109,18 @@ const Landing = () => {
                   alt="African woman confidently using technology" 
                   className="w-full h-full object-cover opacity-60"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-teal-950/90 via-teal-900/60 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-950/90 via-teal-900/60 to-teal-900/40 md:to-transparent"></div>
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full pt-12">
                 <div className="max-w-2xl space-y-6">
-                    <span className="inline-block bg-gold text-teal-900 px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-sm mb-2">
+                    <span className="inline-block bg-gold text-teal-900 px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-sm mb-2 shadow-sm">
                         System D • Digital Protection
                     </span>
-                    <h1 className="text-5xl md:text-7xl font-serif font-bold text-white leading-[1.1]">
+                    <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif font-bold text-white leading-tight md:leading-[1.1]">
                         Every girl deserves to be safe online.
                     </h1>
-                    <p className="text-xl text-teal-50 leading-relaxed font-light">
+                    <p className="text-lg md:text-xl text-teal-50 leading-relaxed font-light drop-shadow-sm">
                         Millions of women and girls face online violence daily. We provide the digital shield they need to learn, connect, and grow without fear.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 pt-6">
@@ -83,32 +139,32 @@ const Landing = () => {
         </section>
 
         {/* The Crisis / Statistics Section */}
-        <section className="py-20 px-6 md:px-12 bg-cream">
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
-                <div className="flex-1 relative">
+        <section className="py-16 md:py-20 px-6 md:px-12 bg-cream">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 md:gap-16 items-center">
+                <div className="flex-1 relative w-full">
                     <img 
                       src={IMAGES.crisis} 
                       alt="Woman looking concerned at phone" 
-                      className="rounded-lg shadow-xl w-full h-[500px] object-cover" 
+                      className="rounded-lg shadow-xl w-full h-[300px] md:h-[500px] object-cover" 
                     />
-                    <div className="absolute -bottom-8 -right-8 bg-white p-6 rounded-lg shadow-lg border-l-4 border-terracotta max-w-xs hidden md:block">
+                    <div className="absolute -bottom-6 -right-4 md:-bottom-8 md:-right-8 bg-white p-6 rounded-lg shadow-lg border-l-4 border-terracotta max-w-xs hidden sm:block">
                         <p className="font-serif italic text-gray-600">"Online violence silences women, forcing them offline and out of public spaces."</p>
                     </div>
                 </div>
                 <div className="flex-1 space-y-8">
-                    <h2 className="text-4xl font-serif font-bold text-teal-900">The Digital Crisis</h2>
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-teal-900">The Digital Crisis</h2>
                     <p className="text-lg text-gray-700 leading-relaxed">
                         The internet should be a gateway to opportunity, but for many African women, it is a place of danger. Harassment, stalking, and image abuse are rising threats that often go unreported.
                     </p>
                     
                     <div className="grid grid-cols-2 gap-8 pt-4">
                         <div>
-                            <span className="text-5xl font-bold text-terracotta block mb-2">38%</span>
-                            <p className="text-sm font-bold text-gray-600 uppercase tracking-wide">of women globally have experienced online violence.</p>
+                            <span className="text-4xl md:text-5xl font-bold text-terracotta block mb-2">38%</span>
+                            <p className="text-xs md:text-sm font-bold text-gray-600 uppercase tracking-wide">of women globally have experienced online violence.</p>
                         </div>
                         <div>
-                            <span className="text-5xl font-bold text-terracotta block mb-2">85%</span>
-                            <p className="text-sm font-bold text-gray-600 uppercase tracking-wide">of women report witnessing online violence against others.</p>
+                            <span className="text-4xl md:text-5xl font-bold text-terracotta block mb-2">85%</span>
+                            <p className="text-xs md:text-sm font-bold text-gray-600 uppercase tracking-wide">of women report witnessing online violence against others.</p>
                         </div>
                     </div>
 
@@ -121,14 +177,14 @@ const Landing = () => {
         </section>
 
         {/* How We Help (Features) */}
-        <section className="py-24 px-6 md:px-12 bg-white">
-            <div className="max-w-7xl mx-auto text-center mb-16">
+        <section className="py-16 md:py-24 px-6 md:px-12 bg-white">
+            <div className="max-w-7xl mx-auto text-center mb-12 md:mb-16">
                 <span className="text-terracotta font-bold uppercase tracking-widest text-sm">Our Solution</span>
-                <h2 className="text-4xl font-serif font-bold text-teal-900 mt-3 mb-6">How We Protect You</h2>
+                <h2 className="text-3xl md:text-4xl font-serif font-bold text-teal-900 mt-3 mb-6">How We Protect You</h2>
                 <div className="w-24 h-1 bg-terracotta mx-auto"></div>
             </div>
 
-            <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
                 {LANDING_FEATURES.map((feature, idx) => {
                   const Icon = IconMap[feature.iconName];
                   return (
@@ -143,26 +199,26 @@ const Landing = () => {
                 })}
             </div>
 
-            <div className="mt-16 text-center">
+            <div className="mt-12 md:mt-16 text-center">
                  <button 
                     onClick={() => setShowScanner(true)}
-                    className="inline-flex items-center gap-2 text-teal-900 font-bold border-b-2 border-terracotta pb-1 hover:text-terracotta transition-colors"
+                    className="inline-flex items-center gap-2 text-teal-900 font-bold border-b-2 border-terracotta pb-1 hover:text-terracotta transition-colors text-lg"
                 >
-                    Take a Free Safety Check <ArrowRight size={18} />
+                    Take a Free Safety Check <ArrowRight size={20} />
                  </button>
             </div>
         </section>
 
         {/* Impact / Stories */}
-        <section className="py-24 px-6 md:px-12 bg-teal-900 text-white relative">
+        <section className="py-16 md:py-24 px-6 md:px-12 bg-teal-900 text-white relative">
             <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `url(${IMAGES.community})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
             
             <div className="max-w-5xl mx-auto relative z-10">
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-center mb-16">Stories from the Community</h2>
+                <h2 className="text-3xl md:text-4xl font-serif font-bold text-center mb-12 md:mb-16">Stories from the Community</h2>
                 
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {TESTIMONIALS.map((t, idx) => (
-                        <div key={idx} className="bg-white text-gray-800 p-8 rounded-lg shadow-xl relative">
+                        <div key={idx} className="bg-white text-gray-800 p-8 rounded-lg shadow-xl relative mt-4 md:mt-0">
                             <div className="text-terracotta text-6xl font-serif absolute -top-6 left-6 opacity-100">"</div>
                             <p className="text-lg italic leading-relaxed mb-6 pt-4">
                                 {t.text}
@@ -183,18 +239,18 @@ const Landing = () => {
         </section>
 
         {/* Plans Section */}
-        <section className="py-24 px-6 md:px-12 bg-cream">
+        <section className="py-16 md:py-24 px-6 md:px-12 bg-cream">
              <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-12">
-                    <h2 className="text-4xl font-serif font-bold text-teal-900 mb-4">Membership Options</h2>
-                    <p className="text-gray-600 max-w-2xl mx-auto">
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-teal-900 mb-4">Membership Options</h2>
+                    <p className="text-gray-600 max-w-2xl mx-auto text-lg">
                         Safety is a human right. Our core protection is free, forever. Upgrades support our mission and provide advanced tools for families.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {PLANS.map((plan, idx) => (
-                    <div key={idx} className={`relative bg-white rounded-xl p-6 flex flex-col border ${plan.recommended ? 'border-terracotta shadow-xl scale-105 z-10' : 'border-gray-200'}`}>
+                    <div key={idx} className={`relative bg-white rounded-xl p-6 flex flex-col border ${plan.recommended ? 'border-terracotta shadow-xl scale-100 lg:scale-105 z-10' : 'border-gray-200'}`}>
                        {plan.recommended && (
                          <div className="absolute top-0 left-0 w-full bg-terracotta text-white text-center py-1 text-xs font-bold uppercase tracking-widest rounded-t-lg">
                            Recommended
@@ -214,7 +270,7 @@ const Landing = () => {
                                </li>
                              ))}
                            </ul>
-                           <Link to="/auth" className={`w-full py-3 rounded-md font-bold text-center transition-colors border-2 ${
+                           <Link to="/auth" className={`w-full py-3 rounded-md font-bold text-center transition-colors border-2 block ${
                                plan.recommended 
                                ? 'bg-teal-900 text-white border-teal-900 hover:bg-teal-800' 
                                : 'bg-white text-teal-900 border-teal-900 hover:bg-teal-50'
@@ -254,14 +310,14 @@ const Landing = () => {
                     </div>
                     <p>System D • Protecting African Women & Girls</p>
                 </div>
-                <div className="flex gap-6 font-bold uppercase tracking-wider text-xs">
+                <div className="flex gap-6 font-bold uppercase tracking-wider text-xs flex-wrap justify-center">
                     <Link to="/about" className="hover:text-white transition-colors">About</Link>
                     <Link to="/plans" className="hover:text-white transition-colors">Plans</Link>
                     <Link to="/support" className="hover:text-white transition-colors">Support</Link>
                     <a href="#" className="hover:text-white transition-colors">Privacy</a>
                 </div>
-                <div>
-                    &copy; 2024 System D.
+                <div className="text-center md:text-right">
+                    &copy; {new Date().getFullYear()} System D.
                 </div>
             </div>
         </footer>

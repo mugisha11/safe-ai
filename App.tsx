@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import { 
   Shield, Activity, Eye, FileText, Lock, 
   Menu, X, Bell, LogOut, Heart, LifeBuoy, Info
@@ -22,7 +22,7 @@ import { generateMockAlert } from './services/monitoringService';
 import { Alert } from './types';
 
 // --- Sidebar Component ---
-const Sidebar = ({ isOpen, onClose, panicMode }: { isOpen: boolean, onClose: () => void, panicMode: () => void }) => {
+const Sidebar = ({ isOpen, onClose, panicMode, onLogout }: { isOpen: boolean, onClose: () => void, panicMode: () => void, onLogout: () => void }) => {
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
   
@@ -38,8 +38,8 @@ const Sidebar = ({ isOpen, onClose, panicMode }: { isOpen: boolean, onClose: () 
   ];
 
   return (
-    <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-teal-900 text-cream transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:inset-auto shadow-xl`}>
-      <div className="flex items-center justify-between p-6">
+    <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-teal-900 text-cream transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:inset-auto shadow-xl flex flex-col`}>
+      <div className="flex items-center justify-between p-6 shrink-0">
         <Link to="/dashboard" className="flex items-center space-x-2" onClick={onClose}>
           <Logo className="w-8 h-8" />
           <span className="text-xl font-bold font-serif tracking-wide">DigiSafe+</span>
@@ -49,7 +49,7 @@ const Sidebar = ({ isOpen, onClose, panicMode }: { isOpen: boolean, onClose: () 
         </button>
       </div>
 
-      <nav className="mt-8 px-4 space-y-2">
+      <nav className="flex-1 overflow-y-auto px-4 space-y-2 mt-2 custom-scrollbar">
         {navItems.map((item) => (
           <Link
             key={item.path}
@@ -63,16 +63,24 @@ const Sidebar = ({ isOpen, onClose, panicMode }: { isOpen: boolean, onClose: () 
         ))}
       </nav>
 
-      <div className="absolute bottom-0 w-full p-6 space-y-4">
+      <div className="p-6 space-y-3 shrink-0 bg-teal-900 border-t border-teal-800">
+        <button 
+          onClick={onLogout}
+          className="w-full bg-teal-800 hover:bg-teal-700 text-teal-100 font-bold py-3 px-4 rounded-xl shadow-sm flex items-center justify-center space-x-2 transition-colors"
+        >
+          <LogOut size={18} />
+          <span>Log Out</span>
+        </button>
+
         <button 
           onClick={panicMode}
           className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg flex items-center justify-center space-x-2 transition-transform active:scale-95"
         >
-          <LogOut size={20} />
-          <span>Quick Exit (Panic)</span>
+          <Activity size={18} />
+          <span>Panic Exit</span>
         </button>
-        <div className="text-xs text-center text-teal-300 opacity-60">
-          System D • Ver 1.0.5
+        <div className="text-xs text-center text-teal-300 opacity-60 pt-2">
+          System D • Ver 1.0.6
         </div>
       </div>
     </aside>
@@ -80,7 +88,7 @@ const Sidebar = ({ isOpen, onClose, panicMode }: { isOpen: boolean, onClose: () 
 };
 
 // --- Main App Layout for Authenticated Users ---
-const AppLayout = ({ children }: { children: React.ReactNode }) => {
+const AppLayout = ({ children, onLogout }: { children: React.ReactNode, onLogout: () => void }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notifications, setNotifications] = useState<Alert[]>([]);
 
@@ -102,7 +110,12 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="flex h-screen bg-cream overflow-hidden font-sans">
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} panicMode={handlePanic} />
+      <Sidebar 
+        isOpen={sidebarOpen} 
+        onClose={() => setSidebarOpen(false)} 
+        panicMode={handlePanic} 
+        onLogout={onLogout}
+      />
       
       <div className="flex-1 flex flex-col overflow-hidden relative">
         {/* Mobile Header */}
@@ -142,11 +155,21 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
 // --- App Component ---
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // Router is wrapped inside the return, so we can't use useNavigate here directly.
+  // We handle navigation inside the components or via conditional rendering tricks,
+  // but for the root logout, passing the state setter is cleaner.
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    // Since we are using conditional rendering for layouts, 
+    // React Router will automatically show the Public/Landing routes
+    // because ProtectedRoute will redirect to /auth or home if accessed.
+  };
 
   // Helper to choose layout based on auth state
   const RouteLayout = ({ children }: { children: React.ReactNode }) => {
     if (isAuthenticated) {
-      return <AppLayout>{children}</AppLayout>;
+      return <AppLayout onLogout={handleLogout}>{children}</AppLayout>;
     }
     return <PublicLayout>{children}</PublicLayout>;
   };
@@ -156,7 +179,7 @@ export default function App() {
     if (!isAuthenticated) {
       return <Navigate to="/auth" />;
     }
-    return <AppLayout>{children}</AppLayout>;
+    return <AppLayout onLogout={handleLogout}>{children}</AppLayout>;
   };
 
   return (

@@ -251,24 +251,43 @@ export interface HelpCenter {
   country: string;
   phone: string;
   email: string;
-  type: 'NGO' | 'Government' | 'Hotline';
+  type: 'Police' | 'Hospital' | 'NGO' | 'Government' | 'Hotline';
+  lat: number;
+  lng: number;
 }
 
 export const HELP_CENTERS: HelpCenter[] = [
-  { name: "SafeCity Rwanda", city: "Kigali", country: "Rwanda", phone: "+250 788 123 456", email: "contact@safecity.rw", type: "NGO" },
-  { name: "Isange One Stop Center", city: "Kigali", country: "Rwanda", phone: "3512 (Toll Free)", email: "help@isange.gov.rw", type: "Government" },
-  { name: "Gender Based Violence Recovery Centre", city: "Nairobi", country: "Kenya", phone: "+254 719 638 006", email: "gbvrc@nwh.co.ke", type: "NGO" },
-  { name: "FIDA Kenya", city: "Nairobi", country: "Kenya", phone: "+254 722 509 760", email: "info@fidakenya.org", type: "NGO" },
-  { name: "Domestic Violence Support Group", city: "Lagos", country: "Nigeria", phone: "0813 966 8888", email: "support@dvsg.ng", type: "NGO" },
-  { name: "Lagos State Domestic & Sexual Violence Response Team", city: "Lagos", country: "Nigeria", phone: "0813 796 0048", email: "info@dsvrtlagos.org", type: "Government" },
-  { name: "Tears Foundation", city: "Johannesburg", country: "South Africa", phone: "*134*7355#", email: "info@tears.co.za", type: "NGO" },
-  { name: "Gender Violence Command Centre", city: "Pretoria", country: "South Africa", phone: "0800 428 428", email: "support@gvdc.gov.za", type: "Government" },
-  { name: "The Ark Foundation", city: "Accra", country: "Ghana", phone: "+233 24 377 7773", email: "info@arkfoundationghana.org", type: "NGO" }
+  // Rwanda
+  { name: "SafeCity Rwanda", city: "Kigali", country: "Rwanda", phone: "+250 788 123 456", email: "contact@safecity.rw", type: "NGO", lat: -1.9441, lng: 30.0619 },
+  { name: "Isange One Stop Center", city: "Kigali", country: "Rwanda", phone: "3512", email: "help@isange.gov.rw", type: "Government", lat: -1.9536, lng: 30.1044 },
+  { name: "Kigali Central Police Station", city: "Kigali", country: "Rwanda", phone: "112", email: "police@gov.rw", type: "Police", lat: -1.9520, lng: 30.0600 },
+  
+  // Kenya
+  { name: "Gender Based Violence Recovery Centre", city: "Nairobi", country: "Kenya", phone: "+254 719 638 006", email: "gbvrc@nwh.co.ke", type: "Hospital", lat: -1.3000, lng: 36.7850 },
+  { name: "FIDA Kenya", city: "Nairobi", country: "Kenya", phone: "+254 722 509 760", email: "info@fidakenya.org", type: "NGO", lat: -1.2921, lng: 36.8219 },
+  
+  // Nigeria
+  { name: "Domestic Violence Support Group", city: "Lagos", country: "Nigeria", phone: "0813 966 8888", email: "support@dvsg.ng", type: "NGO", lat: 6.5244, lng: 3.3792 },
+  { name: "Lagos State Domestic & Sexual Violence Response Team", city: "Lagos", country: "Nigeria", phone: "0813 796 0048", email: "info@dsvrtlagos.org", type: "Government", lat: 6.6018, lng: 3.3515 },
+  
+  // South Africa
+  { name: "Tears Foundation", city: "Johannesburg", country: "South Africa", phone: "*134*7355#", email: "info@tears.co.za", type: "NGO", lat: -26.2041, lng: 28.0473 },
+  { name: "Gender Violence Command Centre", city: "Pretoria", country: "South Africa", phone: "0800 428 428", email: "support@gvdc.gov.za", type: "Government", lat: -25.7479, lng: 28.2293 },
+  
+  // Ghana
+  { name: "The Ark Foundation", city: "Accra", country: "Ghana", phone: "+233 24 377 7773", email: "info@arkfoundationghana.org", type: "NGO", lat: 5.6037, lng: -0.1870 }
+];
+
+export const SAFETY_TIPS = [
+  "Stay on the line with the operator until help arrives.",
+  "Share your live location with a trusted friend via WhatsApp.",
+  "Go to a crowded public place if you feel you are being followed.",
+  "Do not agree to meet strangers from the internet in private places."
 ];
 
 export const CHATBOT_QUICK_REPLIES = [
+  "I need help",
   "How do I report harassment?",
-  "Find help near me",
-  "Someone is using my photos",
+  "Find police near me",
   "Secure my account"
 ];

@@ -6,13 +6,30 @@ DigiSafe+ is a privacy-first, African-centered digital bodyguard platform built 
 
 1.  **Install Dependencies** (if moving to a local Node environment):
     ```bash
-    npm install react react-dom react-router-dom lucide-react recharts
+    npm install
     ```
 2.  **Start Development Server**:
     ```bash
-    npm start
+    npm run dev
     ```
-    *Note: This prototype uses client-side routing (HashRouter) and can be deployed to any static host (Netlify, Vercel, GitHub Pages).*
+
+## ☁️ Deployment Guide (Vercel)
+
+**IMPORTANT:** This is a **Vite** project, not Next.js.
+
+If you encounter the error `Error: No Next.js version detected`, it means Vercel has misidentified the framework.
+
+**How to Fix:**
+1.  Go to your Vercel Project Dashboard.
+2.  Navigate to **Settings** > **Build & Development**.
+3.  Change **Framework Preset** to **Vite**.
+4.  Ensure **Output Directory** is set to `dist`.
+5.  Click **Save** and **Redeploy**.
+
+**Correct Build Settings:**
+*   **Build Command:** `npm run build`
+*   **Output Directory:** `dist`
+*   **Install Command:** `npm install`
 
 ## 🔌 Integration Notes & API Stubs
 
@@ -30,7 +47,6 @@ This prototype uses simulated services (`/services/`) to demonstrate functionali
 *   **Current State:** `analyzeText` checks for hardcoded keywords ("kill", "send nudes") to generate a score.
 *   **Production (Gemini API):**
     *   Install the SDK: `npm install @google/genai`
-    *   Uncomment the import for `@google/genai`.
     *   Initialize the client: `const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });`
     *   Use `ai.models.generateContent` with a system instruction: *"You are an expert safety analyst. Analyze the following text for harassment, gaslighting, or sextortion. Return JSON with riskLevel (0-100) and advice."*
 
